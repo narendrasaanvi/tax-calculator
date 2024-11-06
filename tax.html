@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Calculator</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Product Price Calculator</h2>
+        <form id="contact" class="row g-3">
+            <div class="col-md-6">
+                <label for="product1" class="form-label">Product 1</label>
+                <input type="number" class="form-control" name="product1" id="product1">
+            </div>
+            <div class="col-md-6">
+                <label for="product2" class="form-label">Product 2</label>
+                <input type="number" class="form-control" name="product2" id="product2">
+            </div>
+            <div class="col-md-12">
+                <label for="sum" class="form-label">Total Price</label>
+                <input type="number" class="form-control" name="sum" id="sum" readonly>
+            </div>
+            <div class="col-md-4">
+                <label for="taxType" class="form-label">Tax Type</label>
+                <select class="form-select" id="taxType">
+                    <option value="cgst">CGST (2.5%)</option>
+                    <option value="igst">IGST (5%)</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="taxAmount" class="form-label">Tax Amount</label>
+                <input type="number" class="form-control" name="taxAmount" id="taxAmount" readonly>
+            </div>
+            <div class="col-md-4">
+                <label for="finalPrice" class="form-label">Final Price with Tax</label>
+                <input type="number" class="form-control" name="finalPrice" id="finalPrice" readonly>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function calculateSum() {
+            let product1 = parseFloat(document.getElementById('product1').value) || 0;
+            let product2 = parseFloat(document.getElementById('product2').value) || 0;
+            let selectedTaxType = document.getElementById('taxType').value;
+            let total = product1 + product2;
+            let taxAmount = 0;
+
+            if (selectedTaxType === 'cgst') {
+                taxAmount = total * 0.025;
+                document.getElementById('taxAmount').value = taxAmount.toFixed(2);
+            } else if (selectedTaxType === 'igst') {
+                taxAmount = total * 0.05;
+                document.getElementById('taxAmount').value = total.toFixed(2);
+            }
+
+            // Calculate the final price with tax
+            let finalPrice = total + taxAmount;
+
+            // Display the final price
+            document.getElementById('finalPrice').value = finalPrice.toFixed(2);
+            document.getElementById('sum').value = total.toFixed(2);
+        }
+
+        // Adding event listeners to update sum on input change
+        document.getElementById('product1').addEventListener('input', calculateSum);
+        document.getElementById('product2').addEventListener('input', calculateSum);
+        document.getElementById('taxType').addEventListener('change', calculateSum); // Update on tax type change
+    </script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
